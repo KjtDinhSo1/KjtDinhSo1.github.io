@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "node --env-file-if-exists=.env server.js",
-    "messages": "node -e \"const {DatabaseSync}=require('node:sqlite');console.table(new DatabaseSync('data/messages.db').prepare('SELECT id, created_at, name, email, message, emailed FROM messages ORDER BY id DESC LIMIT 50').all())\"",
+    "messages": "node -e \"const {DatabaseSync}=require('node:sqlite');console.table(new DatabaseSync('data/messages.db').prepare('SELECT id, datetime(created_at, 'localtime') AS created_at, name, email, message, emailed FROM messages ORDER BY id DESC LIMIT 50').all())\"",
     "test": "node --test"
   },
   "dependencies": {
