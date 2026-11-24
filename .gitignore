@@ -1,11 +1,8 @@
-# Không đưa lên mạng: file gốc, video tham khảo, cấu hình công cụ
-animation.mp4
-Ảnh.jpg
-assets/avatar.jpg
-.claude/
-.impeccable/
-node_modules/
+# Không đưa lên GitHub
 .env
 .env.local
-.vercel/
 data/
+node_modules/
+.vercel/
+.claude/
+.impeccable/

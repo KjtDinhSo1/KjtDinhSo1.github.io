@@ -1,11 +1,8 @@
-# Không tải lên Vercel: mật khẩu, CSDL trên máy, file gốc, công cụ
+# Không tải lên Vercel: mật khẩu, CSDL trên máy, công cụ, file chỉ dùng khi chạy trên máy
 .env
 .env.local
 data/
 node_modules/
-animation.mp4
-Ảnh.jpg
-assets/avatar.jpg
 .claude/
 .impeccable/
 test/

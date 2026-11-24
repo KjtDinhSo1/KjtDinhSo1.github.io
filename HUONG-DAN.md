@@ -95,7 +95,7 @@ git commit -m "Cập nhật nội dung"
 git push
 ```
 Khoảng 1 phút sau link sẽ hiện bản mới (nhấn Ctrl+F5 nếu vẫn thấy bản cũ).
-File trong `.gitignore` (video, ảnh gốc) sẽ không bị đưa lên mạng.
+File trong `.gitignore` (mật khẩu `.env`, CSDL trên máy, thư viện `node_modules`) sẽ không bị đưa lên mạng.
 
 ## 11. Lỗi thường gặp
 | Hiện tượng | Cách xử lý |
