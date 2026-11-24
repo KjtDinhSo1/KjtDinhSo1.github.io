@@ -1,32 +1,39 @@
-/* API nhận tin nhắn từ form Liên hệ (chạy trên Vercel: POST /api/contact)
+/* API nhận tin nhắn từ form Liên hệ (POST /api/contact) – chạy trên Vercel hoặc bằng `npm start` trên máy
    1. Kiểm tra dữ liệu, chặn bot và gửi dồn dập (tối đa 5 tin / 10 phút / IP)
-   2. Lưu vào bảng messages trên PostgreSQL (Neon)
+   2. Lưu vào bảng messages trong SQLite (có sẵn trong Node, không cần dịch vụ CSDL ngoài)
    3. Gửi mail về Gmail của bạn bằng Nodemailer (bấm Trả lời là trả lời thẳng người gửi)
-   Biến môi trường cần đặt trên Vercel: DATABASE_URL, GMAIL_USER, GMAIL_APP_PASSWORD
-   Tuỳ chọn: MAIL_TO (mặc định = GMAIL_USER), ALLOWED_ORIGINS (các trang được gọi API, cách nhau dấu phẩy) */
-const { neon } = require("@neondatabase/serverless");
+   Biến môi trường: GMAIL_USER, GMAIL_APP_PASSWORD
+   Tuỳ chọn: MAIL_TO (mặc định = GMAIL_USER), ALLOWED_ORIGINS (các trang được gọi API, cách nhau dấu phẩy),
+             DB_PATH (file SQLite, mặc định data/messages.db; trên Vercel là /tmp vì chỉ thư mục đó ghi được) */
+const { DatabaseSync } = require("node:sqlite");
+const fs = require("node:fs"), path = require("node:path");
 const nodemailer = require("nodemailer");
 
-const ORIGINS = (process.env.ALLOWED_ORIGINS || "https://kjtdinhso1.github.io,http://localhost:5500").split(",").map(s => s.trim());
+const ORIGINS = (process.env.ALLOWED_ORIGINS || "https://kjtdinhso1.github.io,http://localhost:5500,http://localhost:3000").split(",").map(s => s.trim());
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-let db, mailer, schemaReady;
+let db, mailer;
 
-const getDb = () => (db ??= neon(process.env.DATABASE_URL));
+// shortcut: trên Vercel file /tmp mất khi máy chủ khởi động lại, Gmail mới là nơi lưu lâu dài; cần lưu vĩnh viễn thì chạy `npm start` trên máy có ổ đĩa
+function getDb() {
+  if (db) return db;
+  const file = process.env.DB_PATH || (process.env.VERCEL ? "/tmp/messages.db" : path.join(__dirname, "..", "data", "messages.db"));
+  if (file !== ":memory:") fs.mkdirSync(path.dirname(file), { recursive: true });
+  db = new DatabaseSync(file);
+  db.exec(`CREATE TABLE IF NOT EXISTS messages (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT    NOT NULL,
+    email      TEXT    NOT NULL,
+    message    TEXT    NOT NULL,
+    ip         TEXT,
+    user_agent TEXT,
+    emailed    INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT    NOT NULL DEFAULT (datetime('now'))
+  )`);
+  return db;
+}
 const getMailer = () => (mailer ??= nodemailer.createTransport({
   service: "gmail", auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD }
 }));
-// Tạo bảng ở lần gọi đầu tiên sau mỗi lần server khởi động; câu lệnh an toàn khi bảng đã có
-const ensureSchema = sql => (schemaReady ??= sql`
-  CREATE TABLE IF NOT EXISTS messages (
-    id         SERIAL PRIMARY KEY,
-    name       TEXT        NOT NULL,
-    email      TEXT        NOT NULL,
-    message    TEXT        NOT NULL,
-    ip         TEXT,
-    user_agent TEXT,
-    emailed    BOOLEAN     NOT NULL DEFAULT FALSE,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  )`.catch(e => { schemaReady = null; throw e; }));
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const send = (res, status, data) => {
@@ -66,18 +73,17 @@ async function handler(req, res) {
 
   let id;
   try {
-    const sql = getDb();
-    await ensureSchema(sql);
-    const [{ n }] = await sql`SELECT COUNT(*)::int AS n FROM messages WHERE ip = ${ip} AND created_at > NOW() - INTERVAL '10 minutes'`;
+    const d = getDb();
+    const { n } = d.prepare("SELECT COUNT(*) AS n FROM messages WHERE ip = ? AND created_at > datetime('now', '-10 minutes')").get(ip);
     if (n >= 5) return send(res, 429, { ok: false, error: "Bạn gửi hơi nhiều rồi, thử lại sau ít phút nhé." });
-    [{ id }] = await sql`INSERT INTO messages (name, email, message, ip, user_agent)
-      VALUES (${name}, ${email}, ${message}, ${ip}, ${String(req.headers["user-agent"] || "").slice(0, 300)}) RETURNING id`;
+    id = Number(d.prepare("INSERT INTO messages (name, email, message, ip, user_agent) VALUES (?, ?, ?, ?, ?)")
+      .run(name, email, message, ip, String(req.headers["user-agent"] || "").slice(0, 300)).lastInsertRowid);
   } catch (e) {
     console.error("DB error:", e);
     return send(res, 500, { ok: false, error: "Máy chủ đang bận, bạn thử lại sau nhé." });
   }
 
-  // Tin đã nằm trong CSDL, nên lỗi gửi mail không làm mất tin: vẫn báo thành công, cột emailed = false để biết mà xem lại
+  // Tin đã nằm trong CSDL, nên lỗi gửi mail không làm mất tin: vẫn báo thành công, cột emailed = 0 để biết mà xem lại
   try {
     await getMailer().sendMail({
       from: `"Portfolio Kiệt" <${process.env.GMAIL_USER}>`,
@@ -91,7 +97,7 @@ async function handler(req, res) {
         <div style="background:#FFD0DF;border:1px solid #e9a3bb;padding:12px 16px;border-radius:10px;white-space:pre-wrap">${esc(message)}</div>
         <p style="color:#7d3a54;font-size:12px">Tin #${id} · Bấm Trả lời để trả lời thẳng người gửi.</p></div>`
     });
-    await getDb()`UPDATE messages SET emailed = TRUE WHERE id = ${id}`;
+    getDb().prepare("UPDATE messages SET emailed = 1 WHERE id = ?").run(id);
   } catch (e) {
     console.error("Mail error:", e);
   }

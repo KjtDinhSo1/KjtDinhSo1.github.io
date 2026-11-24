@@ -14,7 +14,8 @@ Không cần biết code. Hầu hết mọi thứ bạn sửa trong **một file
 | `main.js` | Code hiển thị (thường không cần sửa) |
 | `index.html` | Khung trang |
 | `assets/` | Bỏ ảnh của bạn vào đây |
-| `api/contact.js` | Máy chủ nhận tin nhắn: lưu SQL + gửi mail (xem mục 12) |
+| `api/contact.js` | Máy chủ nhận tin nhắn: lưu SQLite + gửi mail (xem mục 12) |
+| `server.js` | Chạy cả trang + API trên máy: `npm start` |
 | `test/` | Kiểm tra tự động cho API (`npm test`) |
 
 ## 3. Đổi thông tin cá nhân (`data.js`)
@@ -30,7 +31,7 @@ Sửa chữ nằm trong dấu `"..."`, giữ nguyên dấu phẩy và ngoặc.
 
 ## 4. Thêm ảnh của bạn
 1. Copy ảnh vào thư mục `assets/` (nên dùng `.jpg` hoặc `.webp`, dưới 500 KB).
-2. Ảnh chân dung: `photo: "assets/avatar.webp"`. Nên dùng ảnh đã tách nền (PNG/WebP nền trong suốt), trang sẽ cho chủ thể nổi trên nền neon. Ảnh thường (JPG) sẽ hiện trong khung.
+2. Ảnh chân dung: `photo: "assets/avatar.webp"`. Nên dùng ảnh đã tách nền (PNG/WebP nền trong suốt), trang sẽ cho chủ thể nổi trên nền trang. Ảnh thường (JPG) sẽ hiện trong khung.
 3. Ảnh tác phẩm: trong mục `works`, điền `img: "assets/ten-anh.jpg"` (tỉ lệ 4:3).
    Để `img: ""` thì trang tự hiện khối màu theo `color`.
 > Tên file không dấu, không khoảng trắng: `solartrip-logo.jpg`.
@@ -104,30 +105,43 @@ File trong `.gitignore` (video, ảnh gốc) sẽ không bị đưa lên mạng.
 | Font không đổi | Chưa có mạng hoặc cần tải lại trang (Ctrl+F5) |
 
 ## 12. Form Liên hệ: lưu SQL + gửi mail (Nodemailer)
-Khi khách bấm **Gửi tin nhắn**, trang gọi `api/contact.js` (chạy trên Vercel). API sẽ:
+Khi khách bấm **Gửi tin nhắn**, trang gọi `api/contact.js`. API sẽ:
 1. Kiểm tra dữ liệu, chặn bot (ô ẩn) và chặn gửi dồn dập (tối đa 5 tin / 10 phút / IP).
-2. Lưu tin vào bảng `messages` trên **PostgreSQL (Neon)**. Bảng tự tạo ở lần gửi đầu tiên.
+2. Lưu tin vào bảng `messages` trong **SQLite** (có sẵn trong Node, không cần dịch vụ CSDL nào). Bảng tự tạo.
 3. Gửi mail về Gmail của bạn bằng **Nodemailer**. Bấm *Trả lời* trong Gmail là trả lời thẳng người gửi.
-   Nếu Gmail lỗi, tin vẫn nằm trong CSDL (cột `emailed = false`).
+   Nếu Gmail lỗi, tin vẫn nằm trong SQLite (cột `emailed = 0`).
 
-### Cài đặt lần đầu (bạn tự làm, khoảng 10 phút)
-1. **Neon (CSDL)**: vào https://neon.tech → *Sign up with GitHub* → *Create project* (vùng gần nhất: Singapore).
-   Bấm **Connect**, copy chuỗi `postgresql://...` (đây là `DATABASE_URL`).
-2. **Mật khẩu ứng dụng Gmail**: vào https://myaccount.google.com/apppasswords (cần bật Xác minh 2 bước trước).
-   Tạo một mật khẩu tên `Portfolio`, copy 16 ký tự (đây là `GMAIL_APP_PASSWORD`). Không dùng mật khẩu Gmail thật.
-3. **Vercel (máy chủ)**: vào https://vercel.com → *Continue with GitHub* → *Add New → Project* →
-   chọn kho `KjtDinhSo1.github.io` → mở *Environment Variables*, thêm 3 biến:
-   `DATABASE_URL`, `GMAIL_USER` (= nguyenanhkiet173@gmail.com), `GMAIL_APP_PASSWORD` → bấm **Deploy**.
-4. Copy địa chỉ Vercel cấp (vd `https://kjt-dinh-so1-github-io.vercel.app`), điền vào `data.js`:
-   `api: "https://<địa-chỉ-vercel>/api/contact"` rồi push lên như mục 10.
+API chạy được ở 2 nơi:
+| | Vercel (trên mạng, miễn phí) | Máy của bạn (`npm start`) |
+|---|---|---|
+| Ai gửi được | Mọi người, 24/7 | Chỉ khi máy bạn bật và chạy server |
+| Tin nhắn lưu ở | **Gmail** (file SQLite trên Vercel là tạm, mất khi máy chủ khởi động lại) | Gmail + file `data/messages.db` (giữ vĩnh viễn) |
 
-Mẫu các biến nằm trong `.env.example`. **Không** ghi giá trị thật vào file nào trong kho (kho công khai).
+### Bước 1: Tạo mật khẩu ứng dụng Gmail
+1. Vào https://myaccount.google.com/security, bật **Xác minh 2 bước** nếu chưa bật.
+2. Vào https://myaccount.google.com/apppasswords, gõ tên `Portfolio`, bấm **Tạo**.
+3. Copy 16 ký tự, **bỏ dấu cách**. Đây là `GMAIL_APP_PASSWORD` (không dùng mật khẩu Gmail thật).
 
-### Xem tin nhắn đã lưu
-Neon → dự án → **SQL Editor**, chạy:
+### Bước 2a: Đưa API lên Vercel
+1. Vào https://vercel.com/signup → **Hobby** → **Continue with GitHub**.
+2. **Add New… → Project** → chọn kho `KjtDinhSo1.github.io` → **Import**
+   (không thấy kho thì bấm *Adjust GitHub App Permissions* để cấp quyền).
+3. **Project Name**: `kiet-portfolio`; **Framework Preset**: **Other**.
+4. **Environment Variables**: thêm `GMAIL_USER` = `nguyenanhkiet173@gmail.com` và `GMAIL_APP_PASSWORD` = 16 ký tự ở Bước 1.
+5. Bấm **Deploy**, chờ xong, copy địa chỉ ở mục **Domains** (vd `https://kiet-portfolio.vercel.app`).
+6. Kiểm tra: mở `https://<địa-chỉ>/api/contact`, thấy `{"ok":false,"error":"Chỉ nhận POST."}` là chạy.
+7. Điền vào `data.js`: `api: "https://<địa-chỉ>/api/contact"` rồi push (mục 10).
+   Trang trên Vercel (`https://<địa-chỉ>`) cũng là bản đầy đủ của web, form ở đó tự dùng API cùng trang.
+
+### Bước 2b (tuỳ chọn): Chạy trên máy của bạn
+1. Copy `.env.example` thành `.env`, điền `GMAIL_APP_PASSWORD`. File `.env` không bị đưa lên GitHub.
+2. Chạy `npm install` (lần đầu) rồi `npm start`, mở http://localhost:3000.
+
+### Xem tin nhắn đã lưu (khi chạy trên máy)
+`npm run messages` in ra 50 tin mới nhất. Hoặc mở `data/messages.db` bằng phần mềm *DB Browser for SQLite* và chạy:
 ```sql
 SELECT id, created_at, name, email, message, emailed FROM messages ORDER BY id DESC;
 ```
 
 ### Kiểm tra code
-`npm install` rồi `npm test` (giả lập CSDL và Gmail, không gửi thư thật).
+`npm test`: 7 bài kiểm tra với SQLite thật và Gmail giả lập (không gửi thư thật).

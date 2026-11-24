@@ -74,9 +74,11 @@ $("#contact").innerHTML = `<h2>${S.contactTitle}</h2><div class="cgrid">
       <b>Đã gửi tới Kiệt rồi nè ♡</b><p>Mình nhận được tin của bạn rồi và sẽ trả lời qua email sớm nhất.</p>
       <button type="button" class="btn" id="again">Gửi tin khác</button>
     </div></form></div>`;
-/* Gửi tin nhắn tới API của mình (api/contact.js trên Vercel): lưu vào PostgreSQL rồi gửi mail về Gmail.
-   Chưa có contact.api thì mở ứng dụng email của người xem như cũ. */
+/* Gửi tin nhắn tới API của mình (api/contact.js): lưu vào SQLite rồi gửi mail về Gmail.
+   Trên Vercel hoặc `npm start` API nằm cùng trang (/api/contact); trên GitHub Pages thì dùng contact.api,
+   chưa điền thì mở ứng dụng email của người xem như cũ. */
 {
+  const API = c.api || (location.hostname.endsWith("github.io") ? "" : "/api/contact");
   const form = $("#form"), btn = form.querySelector(".btn"), fmsg = $("#fmsg");
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;  // cùng luật với server
   const fieldErr = (name, text) => {
@@ -97,13 +99,13 @@ $("#contact").innerHTML = `<h2>${S.contactTitle}</h2><div class="cgrid">
     if (!data.name) return fieldErr("name", "Bạn nhập tên nhé.");
     if (!EMAIL_RE.test(data.email)) return fieldErr("email", "Email chưa đúng định dạng.");
     if (!data.message) return fieldErr("message", "Bạn nhập lời nhắn nhé.");
-    if (!c.api) {
+    if (!API) {
       location.href = `mailto:${c.email}?subject=${encodeURIComponent("Liên hệ từ " + data.name)}&body=${encodeURIComponent(data.message + "\n\n" + data.name + " – " + data.email)}`;
       return;
     }
     form.classList.add("busy"); btn.textContent = "Đang gửi…"; fmsg.className = "fmsg"; fmsg.textContent = "";
     try {
-      const r = await fetch(c.api, { method: "POST", headers: { "Content-Type": "application/json" },
+      const r = await fetch(API, { method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data), signal: AbortSignal.timeout(15000) });
       const d = await r.json().catch(() => ({}));
       if (d.field) return fieldErr(d.field, d.error);
