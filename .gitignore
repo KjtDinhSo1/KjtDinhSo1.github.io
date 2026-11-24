@@ -4,3 +4,7 @@ animation.mp4
 assets/avatar.jpg
 .claude/
 .impeccable/
+node_modules/
+.env
+.env.local
+.vercel/

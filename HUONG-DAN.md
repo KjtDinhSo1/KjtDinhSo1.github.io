@@ -14,6 +14,8 @@ Không cần biết code. Hầu hết mọi thứ bạn sửa trong **một file
 | `main.js` | Code hiển thị (thường không cần sửa) |
 | `index.html` | Khung trang |
 | `assets/` | Bỏ ảnh của bạn vào đây |
+| `api/contact.js` | Máy chủ nhận tin nhắn: lưu SQL + gửi mail (xem mục 12) |
+| `test/` | Kiểm tra tự động cho API (`npm test`) |
 
 ## 3. Đổi thông tin cá nhân (`data.js`)
 Sửa chữ nằm trong dấu `"..."`, giữ nguyên dấu phẩy và ngoặc.
@@ -23,7 +25,7 @@ Sửa chữ nằm trong dấu `"..."`, giữ nguyên dấu phẩy và ngoặc.
 - `heroWord`: chữ lớn phía sau ảnh (mặc định `PORTFOLIO`).
 - `stats`: 3 con số nổi bật (`n` là số, `l` là nhãn).
 - `education`, `tools`: học vấn và công cụ.
-- `contact`: email, số điện thoại, địa chỉ, mạng xã hội. Form liên hệ gửi tin nhắn thẳng về Gmail `contact.email` qua FormSubmit (miễn phí). **Lần đầu** có người gửi, FormSubmit gửi một email "Activate Form" tới Gmail đó: bấm **Activate** một lần là từ đó mọi tin nhắn đều về hộp thư (xem cả mục Spam/Quảng cáo). Bấm Trả lời trong Gmail là trả lời thẳng người gửi.
+- `contact`: email, số điện thoại, địa chỉ, mạng xã hội. `contact.api` là địa chỉ máy chủ nhận tin nhắn của form Liên hệ (xem mục 12). Để trống thì form mở ứng dụng email của người xem.
 - `footer`: dòng chữ cuối trang.
 
 ## 4. Thêm ảnh của bạn
@@ -100,3 +102,32 @@ File trong `.gitignore` (video, ảnh gốc) sẽ không bị đưa lên mạng.
 | Trang trắng, không có nội dung | Lỗi cú pháp trong `data.js` (thiếu dấu `,` `"` `}`). Mở F12 → Console xem dòng báo lỗi |
 | Ảnh không hiện | Sai tên file hoặc đường dẫn (phân biệt hoa/thường) |
 | Font không đổi | Chưa có mạng hoặc cần tải lại trang (Ctrl+F5) |
+
+## 12. Form Liên hệ: lưu SQL + gửi mail (Nodemailer)
+Khi khách bấm **Gửi tin nhắn**, trang gọi `api/contact.js` (chạy trên Vercel). API sẽ:
+1. Kiểm tra dữ liệu, chặn bot (ô ẩn) và chặn gửi dồn dập (tối đa 5 tin / 10 phút / IP).
+2. Lưu tin vào bảng `messages` trên **PostgreSQL (Neon)**. Bảng tự tạo ở lần gửi đầu tiên.
+3. Gửi mail về Gmail của bạn bằng **Nodemailer**. Bấm *Trả lời* trong Gmail là trả lời thẳng người gửi.
+   Nếu Gmail lỗi, tin vẫn nằm trong CSDL (cột `emailed = false`).
+
+### Cài đặt lần đầu (bạn tự làm, khoảng 10 phút)
+1. **Neon (CSDL)**: vào https://neon.tech → *Sign up with GitHub* → *Create project* (vùng gần nhất: Singapore).
+   Bấm **Connect**, copy chuỗi `postgresql://...` (đây là `DATABASE_URL`).
+2. **Mật khẩu ứng dụng Gmail**: vào https://myaccount.google.com/apppasswords (cần bật Xác minh 2 bước trước).
+   Tạo một mật khẩu tên `Portfolio`, copy 16 ký tự (đây là `GMAIL_APP_PASSWORD`). Không dùng mật khẩu Gmail thật.
+3. **Vercel (máy chủ)**: vào https://vercel.com → *Continue with GitHub* → *Add New → Project* →
+   chọn kho `KjtDinhSo1.github.io` → mở *Environment Variables*, thêm 3 biến:
+   `DATABASE_URL`, `GMAIL_USER` (= nguyenanhkiet173@gmail.com), `GMAIL_APP_PASSWORD` → bấm **Deploy**.
+4. Copy địa chỉ Vercel cấp (vd `https://kjt-dinh-so1-github-io.vercel.app`), điền vào `data.js`:
+   `api: "https://<địa-chỉ-vercel>/api/contact"` rồi push lên như mục 10.
+
+Mẫu các biến nằm trong `.env.example`. **Không** ghi giá trị thật vào file nào trong kho (kho công khai).
+
+### Xem tin nhắn đã lưu
+Neon → dự án → **SQL Editor**, chạy:
+```sql
+SELECT id, created_at, name, email, message, emailed FROM messages ORDER BY id DESC;
+```
+
+### Kiểm tra code
+`npm install` rồi `npm test` (giả lập CSDL và Gmail, không gửi thư thật).

@@ -60,6 +60,8 @@ window.SITE = {
   contactTitle: "Cùng nhau build...",
   contact: {
     email: "nguyenanhkiet173@gmail.com",
+    // Địa chỉ API nhận tin nhắn (Vercel), vd "https://ten-du-an.vercel.app/api/contact". Để "" thì form mở ứng dụng email.
+    api: "",
     phone: "0364 206 153",
     social: [
       { t: "GitHub · KjtDinhSo1",      href: "https://github.com/KjtDinhSo1" },

@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-kiet",
+  "private": true,
+  "description": "Portfolio tĩnh + API /api/contact (Vercel): lưu tin nhắn vào PostgreSQL (Neon) và gửi mail qua Nodemailer",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.1",
+    "nodemailer": "^10.6.1"
+  }
+}

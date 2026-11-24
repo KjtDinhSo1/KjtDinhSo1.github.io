@@ -63,32 +63,61 @@ $("#contact").innerHTML = `<h2>${S.contactTitle}</h2><div class="cgrid">
     <li><small>Điện thoại</small><a href="tel:${c.phone.replace(/\s/g, "")}">${c.phone}</a></li>
     <li><small>Địa chỉ</small>${c.address}</li>
     ${c.social.map(s => `<li><a href="${s.href}" target="_blank" rel="noopener">${s.t}</a></li>`).join("")}</ul>
-  <form id="form"><label>Tên của bạn<input name="n" required></label>
-    <label>Email<input name="e" type="email" required></label>
-    <label>Bạn cần gì?<textarea name="m" rows="4" required></textarea></label>
+  <form id="form" novalidate>
+    <label>Tên của bạn<input name="name" autocomplete="name" maxlength="100"><span class="ferr"></span></label>
+    <label>Email<input name="email" type="email" autocomplete="email" maxlength="200"><span class="ferr"></span></label>
+    <label>Bạn cần gì?<textarea name="message" rows="4" maxlength="5000"></textarea><span class="ferr"></span></label>
     <input name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <button class="btn">Gửi tin nhắn</button><p class="fmsg" id="fmsg" role="status" aria-live="polite"></p></form></div>`;
-/* Gửi tin nhắn thẳng về Gmail qua FormSubmit (miễn phí, không cần server). Lần gửi đầu tiên FormSubmit sẽ gửi
-   một email "Activate" tới contact.email, bấm kích hoạt 1 lần là từ đó mọi tin nhắn đều về hộp thư. */
-$("#form").addEventListener("submit", async e => {
-  e.preventDefault();
-  const form = e.target, f = new FormData(form), btn = form.querySelector(".btn"), msg = $("#fmsg");
-  if (f.get("_honey")) return;  // ô bẫy bot: người thật không thấy nên không điền
-  btn.disabled = true; btn.textContent = "Đang gửi…"; msg.className = "fmsg"; msg.textContent = "";
-  try {
-    const r = await fetch(`https://formsubmit.co/ajax/${c.email}`, {
-      method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ name: f.get("n"), email: f.get("e"), message: f.get("m"),
-        _subject: `Portfolio: tin nhắn từ ${f.get("n")}`, _replyto: f.get("e"), _template: "table" })
-    });
-    const d = await r.json().catch(() => ({}));
-    if (!r.ok || String(d.success) !== "true") throw new Error(d.message || r.status);
-    form.reset(); msg.classList.add("ok"); msg.textContent = "Đã gửi! Mình sẽ phản hồi sớm nha ♡";
-  } catch (err) {
-    msg.classList.add("err");
-    msg.innerHTML = `Chưa gửi được (${String(err.message || err).slice(0, 120)}). Bạn gửi thẳng tới <a href="mailto:${c.email}">${c.email}</a> nhé.`;
-  } finally { btn.disabled = false; btn.textContent = "Gửi tin nhắn"; }
-});
+    <button class="btn">Gửi tin nhắn</button><p class="fmsg" id="fmsg" role="status" aria-live="polite"></p>
+    <div class="fdone" role="status" aria-live="polite">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4h2c.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.8 4.3 7.3C19.5 16.4 12 21 12 21z"/><path class="tick" d="M8 12.2l2.6 2.6L16 9.6"/></svg>
+      <b>Đã gửi tới Kiệt rồi nè ♡</b><p>Mình nhận được tin của bạn rồi và sẽ trả lời qua email sớm nhất.</p>
+      <button type="button" class="btn" id="again">Gửi tin khác</button>
+    </div></form></div>`;
+/* Gửi tin nhắn tới API của mình (api/contact.js trên Vercel): lưu vào PostgreSQL rồi gửi mail về Gmail.
+   Chưa có contact.api thì mở ứng dụng email của người xem như cũ. */
+{
+  const form = $("#form"), btn = form.querySelector(".btn"), fmsg = $("#fmsg");
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;  // cùng luật với server
+  const fieldErr = (name, text) => {
+    const el = form.elements[name], lab = el.closest("label");
+    lab.classList.add("bad"); lab.querySelector(".ferr").textContent = text;
+    lab.animate([{ transform: "none" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "none" }], { duration: 280 });
+    el.focus();
+  };
+  form.addEventListener("input", e => {
+    const lab = e.target.closest("label.bad");
+    if (lab) { lab.classList.remove("bad"); lab.querySelector(".ferr").textContent = ""; }
+  });
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (form.classList.contains("busy")) return;
+    form.querySelectorAll("label.bad").forEach(l => { l.classList.remove("bad"); l.querySelector(".ferr").textContent = ""; });
+    const f = new FormData(form), data = Object.fromEntries([...f].map(([k, v]) => [k, String(v).trim()]));
+    if (!data.name) return fieldErr("name", "Bạn nhập tên nhé.");
+    if (!EMAIL_RE.test(data.email)) return fieldErr("email", "Email chưa đúng định dạng.");
+    if (!data.message) return fieldErr("message", "Bạn nhập lời nhắn nhé.");
+    if (!c.api) {
+      location.href = `mailto:${c.email}?subject=${encodeURIComponent("Liên hệ từ " + data.name)}&body=${encodeURIComponent(data.message + "\n\n" + data.name + " – " + data.email)}`;
+      return;
+    }
+    form.classList.add("busy"); btn.textContent = "Đang gửi…"; fmsg.className = "fmsg"; fmsg.textContent = "";
+    try {
+      const r = await fetch(c.api, { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data), signal: AbortSignal.timeout(15000) });
+      const d = await r.json().catch(() => ({}));
+      if (d.field) return fieldErr(d.field, d.error);
+      if (!r.ok || !d.ok) throw new Error(d.error || `Lỗi ${r.status}`);
+      form.reset(); form.classList.add("sent");
+      $("#again").focus({ preventScroll: true });
+    } catch (err) {
+      fmsg.className = "fmsg err";
+      fmsg.textContent = (err.name === "TimeoutError" ? "Mạng hơi chậm nên chưa gửi được." : err.name === "TypeError" ? "Không kết nối được máy chủ." : err.message) + " Bạn thử lại, hoặc gửi thẳng tới ";
+      fmsg.insertAdjacentHTML("beforeend", `<a href="mailto:${c.email}">${c.email}</a> nhé.`);
+    } finally { form.classList.remove("busy"); btn.textContent = "Gửi tin nhắn"; }
+  });
+  $("#again").addEventListener("click", () => { form.classList.remove("sent"); form.elements.name.focus(); });
+}
 $("#foot").textContent = S.footer;
 
 /* ===== MÀN MỞ ĐẦU: { ♥ } + gõ chữ + thanh tải, rồi màn hồng kéo lên. Bấm chuột hoặc phím để bỏ qua ===== */

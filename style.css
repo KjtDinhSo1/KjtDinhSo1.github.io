@@ -203,9 +203,26 @@ body{background:radial-gradient(ellipse at 75% -10%,rgba(255,225,100,.5),transpa
 @keyframes ld-float{50%{transform:translateY(-16px) rotate(25deg) scale(1.15)}}
 @media(prefers-reduced-motion:reduce){.loader{display:none}}
 
-/* Form liên hệ: ô bẫy bot ẩn, thông báo gửi */
+/* Form liên hệ: lỗi từng ô, đang gửi, gửi xong */
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-form .btn:disabled{opacity:.7;cursor:wait}
+form{position:relative}
+form>*{transition:opacity .35s}
+.ferr{font-size:13px;font-weight:500;color:var(--accent);min-height:0}
+label.bad input,label.bad textarea{border-color:var(--accent);box-shadow:0 0 0 3px rgba(188,22,77,.15)}
+.busy input,.busy textarea{opacity:.55;pointer-events:none}
+.busy .btn{pointer-events:none;opacity:.85}
+.busy .btn::before{content:"";display:inline-block;width:14px;height:14px;margin-right:10px;vertical-align:-2px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .fmsg{font:500 14px var(--body);min-height:1.4em}
-.fmsg.ok{color:#0f766e}.fmsg.err{color:var(--accent)}
-.fmsg a{font-weight:700}
+.fmsg.err{color:var(--accent)}.fmsg a{font-weight:700}
+.fdone{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;padding:24px;text-align:center;
+  background:var(--panel);border:2px solid var(--accent);border-radius:14px;box-shadow:var(--glow);
+  opacity:0;visibility:hidden;transform:scale(.94) translateY(10px);transition:opacity .45s,transform .55s cubic-bezier(.34,1.56,.64,1),visibility 0s .45s}
+.sent .fdone{opacity:1;visibility:visible;transform:none;transition-delay:.1s,.1s,0s}
+.sent>:not(.fdone){opacity:0;pointer-events:none}
+.fdone svg{width:72px;height:72px;fill:var(--hl);stroke:var(--accent);stroke-width:1.4;stroke-linejoin:round}
+.fdone .tick{fill:none;stroke-width:2;stroke-linecap:round;stroke-dasharray:14;stroke-dashoffset:14}
+.sent .fdone svg{animation:ld-pop .6s .15s cubic-bezier(.34,1.56,.64,1) both}
+.sent .fdone .tick{transition:stroke-dashoffset .45s .6s ease-out;stroke-dashoffset:0}
+.fdone b{font:400 clamp(24px,3vw,32px)/1.2 var(--display);text-transform:uppercase;color:var(--accent)}
+.fdone p{color:var(--mute);max-width:34ch}
