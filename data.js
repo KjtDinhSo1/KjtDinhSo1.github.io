@@ -2,6 +2,7 @@
    Sửa chữ trong dấu "..." rồi lưu file. Xem HUONG-DAN.md để biết chi tiết. */
 window.SITE = {
   name: "Nguyễn Anh Kiệt",
+  logo: "Kinich",                       // tên hiện ở góc trái thanh menu
   initials: "AK",                       // hiện khi chưa có ảnh
   role: "Computer Science Student",
   heroWord: "&lt;DEV/&gt;",
@@ -40,14 +41,14 @@ window.SITE = {
   /* DỰ ÁN TIÊU BIỂU: 2 ảnh lớn tách ra hai bên + 1 ảnh rộng mở ra khi cuộn */
   feature: {
     label: "Dự án tiêu biểu",
-    client: "Monolingo",
-    title: "Monolingo.",
-    sub: "Tự học tiếng Anh mỗi ngày.",
+    client: "Phân tích lời bài hát",
+    title: "Phân tích chủ đề bài hát.",
+    sub: "Theo lời bài hát tiếng Việt.",
     images: [
-      { title: "Học từ vựng theo chủ đề", img: "", color: "#e0457b" },
-      { title: "Luyện tập và theo dõi tiến độ", img: "", color: "#BC164D" }
+      { title: "Xử lý lời bài hát tiếng Việt", img: "", color: "#e0457b" },
+      { title: "Xác định chủ đề của từng bài hát", img: "", color: "#BC164D" }
     ],
-    wide: { title: "Monolingo – web tự học tiếng Anh", img: "", color: "#7a0e33" }
+    wide: { title: "Phân tích chủ đề bài hát theo lời bài hát tiếng Việt", img: "", color: "#7a0e33" }
   },
 
   aboutTitle: "Hello, World! Tôi là Kiệt.",

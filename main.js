@@ -4,7 +4,7 @@ const media = w => w.img ? `<img src="${w.img}" alt="${w.title}" loading="lazy">
 
 document.title = `${S.name} – ${S.role}`;
 document.querySelector('meta[name=description]').content = S.intro;
-$("#logo").textContent = S.name;
+$("#logo").textContent = S.logo || S.name;
 $("#nav").innerHTML = S.nav.map(n => `<a href="${n.href}">${n.t}</a>`).join("");
 
 $("#hero").innerHTML = `
@@ -65,7 +65,7 @@ $("#contact").innerHTML = `<h2>${S.contactTitle}</h2><div class="cgrid">
     ${c.social.map(s => `<li><a href="${s.href}" target="_blank" rel="noopener">${s.t}</a></li>`).join("")}</ul>
   <form id="form" novalidate>
     <label>Tên của bạn<input name="name" autocomplete="name" maxlength="100"><span class="ferr"></span></label>
-    <label>Email<input name="email" type="email" autocomplete="email" maxlength="200"><span class="ferr"></span></label>
+    <label>Mail của bạn để Kiệt trả lời<input name="email" type="email" autocomplete="email" maxlength="200"><span class="ferr"></span></label>
     <label>Bạn cần gì?<textarea name="message" rows="4" maxlength="5000"></textarea><span class="ferr"></span></label>
     <input name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <button class="btn">Gửi tin nhắn</button><p class="fmsg" id="fmsg" role="status" aria-live="polite"></p>
