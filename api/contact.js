@@ -88,7 +88,7 @@ async function handler(req, res) {
       html: `<div style="font-family:Arial,sans-serif;max-width:560px">
         <h2 style="color:#BC164D;margin:0 0 12px">Tin nhắn mới từ portfolio ♡</h2>
         <p><b>Tên:</b> ${esc(name)}<br><b>Email:</b> <a href="mailto:${esc(email)}">${esc(email)}</a></p>
-        <div style="background:#FFD0DF;border-left:4px solid #BC164D;padding:12px 16px;border-radius:6px;white-space:pre-wrap">${esc(message)}</div>
+        <div style="background:#FFD0DF;border:1px solid #e9a3bb;padding:12px 16px;border-radius:10px;white-space:pre-wrap">${esc(message)}</div>
         <p style="color:#7d3a54;font-size:12px">Tin #${id} · Bấm Trả lời để trả lời thẳng người gửi.</p></div>`
     });
     await getDb()`UPDATE messages SET emailed = TRUE WHERE id = ${id}`;
