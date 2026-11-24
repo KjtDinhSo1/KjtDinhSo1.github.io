@@ -81,10 +81,18 @@ Nằm trong `data.js`, mục `effects`. Đổi `true` thành `false` để tắt
 Máy bật chế độ "giảm chuyển động" của hệ điều hành sẽ tự không chạy các hiệu ứng này.
 Tiêu đề thanh menu tự ẩn khi cuộn xuống và hiện lại khi cuộn lên (sửa trong `main.js`, hàm `onScroll`).
 
-## 10. Đưa lên mạng (miễn phí)
-- **Netlify Drop**: vào app.netlify.com/drop, kéo cả thư mục `portfolio` vào là có link.
-- **Vercel**: `npx vercel` trong thư mục.
-- **GitHub Pages**: đẩy lên GitHub, bật Pages ở *Settings → Pages*.
+## 10. Web đang chạy trên mạng
+- Link: **https://kjtdinhso1.github.io**
+- Mã nguồn: https://github.com/KjtDinhSo1/KjtDinhSo1.github.io (GitHub Pages, dựng từ nhánh `main`).
+
+**Cập nhật web sau khi sửa file**: mở PowerShell trong thư mục `D:\PORTFOLIO` và chạy:
+```
+git add -A
+git commit -m "Cập nhật nội dung"
+git push
+```
+Khoảng 1 phút sau link sẽ hiện bản mới (nhấn Ctrl+F5 nếu vẫn thấy bản cũ).
+File trong `.gitignore` (video, ảnh gốc) sẽ không bị đưa lên mạng.
 
 ## 11. Lỗi thường gặp
 | Hiện tượng | Cách xử lý |
