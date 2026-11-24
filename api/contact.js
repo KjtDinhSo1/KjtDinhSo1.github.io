@@ -83,7 +83,8 @@ async function handler(req, res) {
     return send(res, 500, { ok: false, error: "Máy chủ đang bận, bạn thử lại sau nhé." });
   }
 
-  // Tin đã nằm trong CSDL, nên lỗi gửi mail không làm mất tin: vẫn báo thành công, cột emailed = 0 để biết mà xem lại
+  // Chạy trên máy: tin đã nằm trong SQLite nên lỗi mail không làm mất tin, vẫn báo thành công (emailed = 0 để xem lại).
+  // Trên Vercel file SQLite chỉ là tạm, nên lỗi mail = mất tin: báo lỗi để khách gửi lại hoặc gửi thẳng email.
   try {
     await getMailer().sendMail({
       from: `"Portfolio Kiệt" <${process.env.GMAIL_USER}>`,
@@ -100,6 +101,7 @@ async function handler(req, res) {
     getDb().prepare("UPDATE messages SET emailed = 1 WHERE id = ?").run(id);
   } catch (e) {
     console.error("Mail error:", e);
+    if (process.env.VERCEL) return send(res, 502, { ok: false, error: "Chưa gửi được thư tới Kiệt." });
   }
   return send(res, 200, { ok: true, id });
 }

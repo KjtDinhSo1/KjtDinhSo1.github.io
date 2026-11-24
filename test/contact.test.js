@@ -66,6 +66,13 @@ test("Gmail lỗi vẫn giữ tin trong CSDL và báo thành công", async () =>
   mailFails = false;
 });
 
+test("trên Vercel, Gmail lỗi thì báo lỗi cho khách (vì SQLite chỉ là tạm)", async () => {
+  mailFails = true; process.env.VERCEL = "1";
+  const r = await call("POST", good, freshIp());
+  delete process.env.VERCEL; mailFails = false;
+  assert.equal(r.status, 502); assert.equal(r.json.ok, false);
+});
+
 test("preflight CORS và chặn trang lạ", async () => {
   assert.equal((await call("OPTIONS")).status, 204);
   const other = await call("POST", good, { origin: "https://evil.example", ...freshIp() });
