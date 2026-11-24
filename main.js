@@ -66,11 +66,28 @@ $("#contact").innerHTML = `<h2>${S.contactTitle}</h2><div class="cgrid">
   <form id="form"><label>Tên của bạn<input name="n" required></label>
     <label>Email<input name="e" type="email" required></label>
     <label>Bạn cần gì?<textarea name="m" rows="4" required></textarea></label>
-    <button class="btn">Gửi tin nhắn</button></form></div>`;
-$("#form").addEventListener("submit", e => {
+    <input name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn">Gửi tin nhắn</button><p class="fmsg" id="fmsg" role="status" aria-live="polite"></p></form></div>`;
+/* Gửi tin nhắn thẳng về Gmail qua FormSubmit (miễn phí, không cần server). Lần gửi đầu tiên FormSubmit sẽ gửi
+   một email "Activate" tới contact.email, bấm kích hoạt 1 lần là từ đó mọi tin nhắn đều về hộp thư. */
+$("#form").addEventListener("submit", async e => {
   e.preventDefault();
-  const f = new FormData(e.target);
-  location.href = `mailto:${c.email}?subject=${encodeURIComponent("Liên hệ từ " + f.get("n"))}&body=${encodeURIComponent(f.get("m") + "\n\n" + f.get("n") + " – " + f.get("e"))}`;
+  const form = e.target, f = new FormData(form), btn = form.querySelector(".btn"), msg = $("#fmsg");
+  if (f.get("_honey")) return;  // ô bẫy bot: người thật không thấy nên không điền
+  btn.disabled = true; btn.textContent = "Đang gửi…"; msg.className = "fmsg"; msg.textContent = "";
+  try {
+    const r = await fetch(`https://formsubmit.co/ajax/${c.email}`, {
+      method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ name: f.get("n"), email: f.get("e"), message: f.get("m"),
+        _subject: `Portfolio: tin nhắn từ ${f.get("n")}`, _replyto: f.get("e"), _template: "table" })
+    });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok || String(d.success) !== "true") throw new Error(d.message || r.status);
+    form.reset(); msg.classList.add("ok"); msg.textContent = "Đã gửi! Mình sẽ phản hồi sớm nha ♡";
+  } catch (err) {
+    msg.classList.add("err");
+    msg.innerHTML = `Chưa gửi được (${String(err.message || err).slice(0, 120)}). Bạn gửi thẳng tới <a href="mailto:${c.email}">${c.email}</a> nhé.`;
+  } finally { btn.disabled = false; btn.textContent = "Gửi tin nhắn"; }
 });
 $("#foot").textContent = S.footer;
 

@@ -202,3 +202,10 @@ body{background:radial-gradient(ellipse at 75% -10%,rgba(255,225,100,.5),transpa
 .ld-spark.y{color:var(--hl);-webkit-text-stroke:1px var(--accent)}
 @keyframes ld-float{50%{transform:translateY(-16px) rotate(25deg) scale(1.15)}}
 @media(prefers-reduced-motion:reduce){.loader{display:none}}
+
+/* Form liên hệ: ô bẫy bot ẩn, thông báo gửi */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+form .btn:disabled{opacity:.7;cursor:wait}
+.fmsg{font:500 14px var(--body);min-height:1.4em}
+.fmsg.ok{color:#0f766e}.fmsg.err{color:var(--accent)}
+.fmsg a{font-weight:700}

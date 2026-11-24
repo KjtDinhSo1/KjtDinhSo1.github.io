@@ -23,7 +23,7 @@ Sửa chữ nằm trong dấu `"..."`, giữ nguyên dấu phẩy và ngoặc.
 - `heroWord`: chữ lớn phía sau ảnh (mặc định `PORTFOLIO`).
 - `stats`: 3 con số nổi bật (`n` là số, `l` là nhãn).
 - `education`, `tools`: học vấn và công cụ.
-- `contact`: email, số điện thoại, địa chỉ, mạng xã hội. Form liên hệ sẽ mở ứng dụng email gửi tới `contact.email`.
+- `contact`: email, số điện thoại, địa chỉ, mạng xã hội. Form liên hệ gửi tin nhắn thẳng về Gmail `contact.email` qua FormSubmit (miễn phí). **Lần đầu** có người gửi, FormSubmit gửi một email "Activate Form" tới Gmail đó: bấm **Activate** một lần là từ đó mọi tin nhắn đều về hộp thư (xem cả mục Spam/Quảng cáo). Bấm Trả lời trong Gmail là trả lời thẳng người gửi.
 - `footer`: dòng chữ cuối trang.
 
 ## 4. Thêm ảnh của bạn

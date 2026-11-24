@@ -62,9 +62,8 @@ window.SITE = {
     email: "nguyenanhkiet173@gmail.com",
     phone: "0364 206 153",
     social: [
-      { t: "GitHub",   href: "https://github.com/" },
-      { t: "LinkedIn", href: "https://linkedin.com/" },
-      { t: "Facebook", href: "https://facebook.com/" }
+      { t: "GitHub · KjtDinhSo1",      href: "https://github.com/KjtDinhSo1" },
+      { t: "Facebook · Nguyễn Kiệt",   href: "https://www.facebook.com/nguyen.kiet.838695" }
     ],
     address: "TP. Hồ Chí Minh, Việt Nam"
   },
