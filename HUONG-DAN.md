@@ -32,7 +32,8 @@ Sửa chữ nằm trong dấu `"..."`, giữ nguyên dấu phẩy và ngoặc.
 ## 4. Thêm ảnh của bạn
 1. Copy ảnh vào thư mục `assets/` (nên dùng `.jpg` hoặc `.webp`, dưới 500 KB).
 2. Ảnh chân dung: `photo: "assets/avatar.webp"`. Nên dùng ảnh đã tách nền (PNG/WebP nền trong suốt), trang sẽ cho chủ thể nổi trên nền trang. Ảnh thường (JPG) sẽ hiện trong khung.
-3. Ảnh tác phẩm: trong mục `works`, điền `img: "assets/ten-anh.jpg"` (tỉ lệ 4:3).
+3. Ảnh dự án: bỏ vào `assets/du-an/`, rồi trong mục `works` điền `img: "assets/du-an/ten-anh.webp"` (ảnh ngang, tỉ lệ 4:3 đẹp nhất).
+   Ảnh gốc chưa cắt để trong `assets/du-an/goc/`: thư mục này không bị đưa lên mạng (tránh lộ tab trình duyệt, thông tin cá nhân trong ảnh chụp màn hình).
    Để `img: ""` thì trang tự hiện khối màu theo `color`.
 > Tên file không dấu, không khoảng trắng: `solartrip-logo.jpg`.
 

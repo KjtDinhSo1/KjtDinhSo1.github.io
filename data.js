@@ -10,7 +10,7 @@ window.SITE = {
   cta: "Xem dự án",
   photo: "assets/avatar.webp",          // ảnh đã tách nền (nền trong suốt)
   stats: [
-    { n: 3,  l: "Dự án" },
+    { n: 4,  l: "Dự án" },
     { n: 13, l: "Công nghệ" }
   ],
   nav: [
@@ -20,12 +20,13 @@ window.SITE = {
     { t: "Liên hệ",   href: "#contact" }
   ],
 
-  /* DỰ ÁN: img để trống thì hiện khối màu; color là màu khối đó */
+  /* DỰ ÁN: img là ảnh trong assets/du-an (ngang, tỉ lệ 4:3 đẹp nhất); để "" thì hiện khối màu theo color */
   workTitle: "Code nên sản phẩm",
   works: [
-    { title: "Phân tích bài hát qua lời", cat: "AI / NLP", year: 2026, img: "", color: "#BC164D", desc: "Phân tích bài hát dựa trên lời bài hát bằng xử lý ngôn ngữ tự nhiên: làm sạch văn bản, trích xuất từ khoá, chủ đề và cảm xúc của từng bài." },
-    { title: "Hệ thống tự động trả lời theo địa giới hành chính", cat: "Chatbot", year: 2026, img: "", color: "#e0457b", desc: "Hệ thống tự động trả lời câu hỏi về đơn vị hành chính: tra cứu tỉnh/thành, phường/xã và địa giới từ dữ liệu hành chính Việt Nam." },
-    { title: "Monolingo – Web tự học tiếng Anh", cat: "Web", year: 2026, img: "", color: "#7a0e33", desc: "Website tự học tiếng Anh: học từ vựng, luyện tập theo bài và theo dõi tiến độ học mỗi ngày." }
+    { title: "Phân tích bài hát qua lời", cat: "AI / NLP", year: 2026, img: "assets/du-an/bai-hat.webp", color: "#BC164D", desc: "Phân tích bài hát dựa trên lời bài hát bằng xử lý ngôn ngữ tự nhiên: làm sạch văn bản, trích xuất từ khoá, chủ đề và cảm xúc của từng bài." },
+    { title: "Hệ thống tự động trả lời theo địa giới hành chính", cat: "Chatbot", year: 2026, img: "assets/du-an/chatbot.webp", color: "#e0457b", desc: "Chatbot Tri Việt tự động trả lời câu hỏi về đơn vị hành chính: tra cứu tỉnh/thành, phường/xã, mã hành chính và địa giới từ dữ liệu hành chính Việt Nam, kèm nguồn minh chứng cho từng câu trả lời." },
+    { title: "Monolingo – Web tự học tiếng Anh", cat: "Web", year: 2026, img: "assets/du-an/monolingo.webp", color: "#7a0e33", desc: "Website tự học tiếng Anh: học từ vựng, luyện tập theo bài và theo dõi tiến độ học mỗi ngày." },
+    { title: "Web Portfolio cá nhân", cat: "Web", year: 2026, img: "assets/du-an/portfolio.webp", color: "#e0457b", desc: "Chính trang web này: HTML, CSS, JavaScript thuần với màn mở đầu, hiệu ứng cuộn và agent quét trang; form liên hệ gọi API Node trên Vercel, lưu SQLite và gửi mail bằng Nodemailer." }
   ],
 
   servicesTitle: "Từ thuật toán, đến sản phẩm.",
@@ -45,10 +46,10 @@ window.SITE = {
     title: "Phân tích chủ đề bài hát.",
     sub: "Theo lời bài hát tiếng Việt.",
     images: [
-      { title: "Xử lý lời bài hát tiếng Việt", img: "", color: "#e0457b" },
-      { title: "Xác định chủ đề của từng bài hát", img: "", color: "#BC164D" }
+      { title: "Xử lý lời bài hát tiếng Việt", img: "assets/du-an/bai-hat-xu-ly.svg", color: "#e0457b" },
+      { title: "Xác định chủ đề của từng bài hát", img: "assets/du-an/bai-hat-chu-de.svg", color: "#BC164D" }
     ],
-    wide: { title: "Phân tích chủ đề bài hát theo lời bài hát tiếng Việt", img: "", color: "#7a0e33" }
+    wide: { title: "Phân tích chủ đề bài hát theo lời bài hát tiếng Việt", img: "assets/du-an/bai-hat-rong.webp", color: "#7a0e33" }
   },
 
   aboutTitle: "Hello, World! Tôi là Kiệt.",

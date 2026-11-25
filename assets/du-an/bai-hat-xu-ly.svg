@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif">
+  <!-- Ảnh minh hoạ: các bước xử lý lời bài hát tiếng Việt (không phải ảnh chụp) -->
+  <rect width="1200" height="900" fill="#140a0c"/>
+  <g fill="#f3e6da">
+    <text x="70" y="118" font-family="'Times New Roman',Times,serif" font-size="58">Xử lý lời bài hát</text>
+    <text x="72" y="170" font-size="26" fill="#b8a59a">Từ văn bản tiếng Việt thô đến đặc trưng để phân loại chủ đề</text>
+  </g>
+
+  <!-- Bước 1: lời bài hát thô -->
+  <g transform="translate(70 240)">
+    <rect width="300" height="520" rx="10" fill="#1f1214" stroke="#3a2a2c" stroke-width="2"/>
+    <text x="28" y="52" font-size="24" font-weight="700" fill="#f3e6da">1 · Lời bài hát</text>
+    <g fill="#4a3a3c">
+      <rect x="28" y="92" width="240" height="14" rx="7"/><rect x="28" y="124" width="200" height="14" rx="7"/>
+      <rect x="28" y="156" width="228" height="14" rx="7"/><rect x="28" y="188" width="170" height="14" rx="7"/>
+      <rect x="28" y="236" width="236" height="14" rx="7"/><rect x="28" y="268" width="190" height="14" rx="7"/>
+      <rect x="28" y="300" width="214" height="14" rx="7"/><rect x="28" y="332" width="150" height="14" rx="7"/>
+      <rect x="28" y="380" width="230" height="14" rx="7"/><rect x="28" y="412" width="180" height="14" rx="7"/>
+    </g>
+    <rect x="28" y="156" width="96" height="14" rx="7" fill="#e2553f"/>
+    <rect x="132" y="268" width="86" height="14" rx="7" fill="#e0ae4a"/>
+    <rect x="28" y="380" width="110" height="14" rx="7" fill="#3aa8a0"/>
+    <text x="28" y="480" font-size="20" fill="#b8a59a">61.525 bài hát</text>
+  </g>
+
+  <!-- mũi tên -->
+  <g stroke="#e0ae4a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M392 500h44m-14-14 14 14-14 14"/><path d="M788 500h44m-14-14 14 14-14 14"/>
+  </g>
+
+  <!-- Bước 2: tách từ + loại từ dừng -->
+  <g transform="translate(458 240)">
+    <rect width="308" height="520" rx="10" fill="#1f1214" stroke="#3a2a2c" stroke-width="2"/>
+    <text x="28" y="52" font-size="24" font-weight="700" fill="#f3e6da">2 · Tách từ</text>
+    <text x="28" y="84" font-size="18" fill="#b8a59a">Chuẩn hoá dấu · loại từ dừng</text>
+    <g font-size="21" font-weight="600">
+      <rect x="28" y="116" width="132" height="44" rx="4" fill="#e2553f"/><text x="44" y="145" fill="#1a0c0d">yêu thương</text>
+      <rect x="170" y="116" width="110" height="44" rx="4" fill="#f3e6da"/><text x="184" y="145" fill="#1a0c0d">nỗi nhớ</text>
+      <rect x="28" y="172" width="126" height="44" rx="4" fill="#e0ae4a"/><text x="44" y="201" fill="#1a0c0d">quê hương</text>
+      <rect x="164" y="172" width="116" height="44" rx="4" fill="#f3e6da"/><text x="180" y="201" fill="#1a0c0d">chia tay</text>
+      <rect x="28" y="228" width="110" height="44" rx="4" fill="#3aa8a0"/><text x="44" y="257" fill="#1a0c0d">tuổi trẻ</text>
+      <rect x="148" y="228" width="132" height="44" rx="4" fill="#f3e6da"/><text x="164" y="257" fill="#1a0c0d">khát vọng</text>
+      <rect x="28" y="284" width="114" height="44" rx="4" fill="#e78fb3"/><text x="44" y="313" fill="#1a0c0d">gia đình</text>
+      <rect x="152" y="284" width="98" height="44" rx="4" fill="#f3e6da"/><text x="168" y="313" fill="#1a0c0d">mẹ ơi</text>
+    </g>
+    <g font-size="20" fill="#7d6a64">
+      <text x="28" y="388" text-decoration="line-through">thì</text>
+      <text x="74" y="388" text-decoration="line-through">là</text>
+      <text x="112" y="388" text-decoration="line-through">những</text>
+      <text x="186" y="388" text-decoration="line-through">cái</text>
+      <text x="234" y="388" text-decoration="line-through">mà</text>
+    </g>
+    <text x="28" y="480" font-size="20" fill="#b8a59a">Từ khoá theo ngữ cảnh</text>
+  </g>
+
+  <!-- Bước 3: vector đặc trưng -->
+  <g transform="translate(854 240)">
+    <rect width="276" height="520" rx="10" fill="#1f1214" stroke="#3a2a2c" stroke-width="2"/>
+    <text x="28" y="52" font-size="24" font-weight="700" fill="#f3e6da">3 · Đặc trưng</text>
+    <text x="28" y="84" font-size="18" fill="#b8a59a">TF-IDF / embedding</text>
+    <g>
+      <rect x="28"  y="116" width="38" height="38" fill="#e2553f"/><rect x="72"  y="116" width="38" height="38" fill="#3a2a2c"/><rect x="116" y="116" width="38" height="38" fill="#e0ae4a" opacity=".6"/><rect x="160" y="116" width="38" height="38" fill="#3a2a2c"/><rect x="204" y="116" width="38" height="38" fill="#e2553f" opacity=".4"/>
+      <rect x="28"  y="160" width="38" height="38" fill="#3a2a2c"/><rect x="72"  y="160" width="38" height="38" fill="#3aa8a0"/><rect x="116" y="160" width="38" height="38" fill="#3a2a2c"/><rect x="160" y="160" width="38" height="38" fill="#e78fb3" opacity=".7"/><rect x="204" y="160" width="38" height="38" fill="#3a2a2c"/>
+      <rect x="28"  y="204" width="38" height="38" fill="#e0ae4a"/><rect x="72"  y="204" width="38" height="38" fill="#3a2a2c"/><rect x="116" y="204" width="38" height="38" fill="#e2553f" opacity=".8"/><rect x="160" y="204" width="38" height="38" fill="#3a2a2c"/><rect x="204" y="204" width="38" height="38" fill="#3aa8a0" opacity=".5"/>
+      <rect x="28"  y="248" width="38" height="38" fill="#3a2a2c"/><rect x="72"  y="248" width="38" height="38" fill="#e78fb3"/><rect x="116" y="248" width="38" height="38" fill="#3a2a2c"/><rect x="160" y="248" width="38" height="38" fill="#e0ae4a" opacity=".5"/><rect x="204" y="248" width="38" height="38" fill="#e2553f"/>
+    </g>
+    <rect x="28" y="330" width="214" height="86" rx="6" fill="#e2553f"/>
+    <text x="44" y="366" font-size="18" fill="#1a0c0d">Chủ đề dự đoán</text>
+    <text x="44" y="400" font-family="'Times New Roman',Times,serif" font-size="30" fill="#1a0c0d">Tình yêu</text>
+    <text x="28" y="480" font-size="20" fill="#b8a59a">Đưa vào mô hình</text>
+  </g>
+</svg>

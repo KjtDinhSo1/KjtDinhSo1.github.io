@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif">
+  <!-- Ảnh minh hoạ: phân bố chủ đề, số liệu lấy từ app phân tích bài hát (61.525 bài) -->
+  <rect width="1200" height="900" fill="#140a0c"/>
+  <text x="70" y="118" font-family="'Times New Roman',Times,serif" font-size="58" fill="#f3e6da">Bài hát nói về điều gì?</text>
+  <text x="72" y="170" font-size="26" fill="#b8a59a">Phân bố chủ đề trên 61.525 bài hát tiếng Việt</text>
+
+  <!-- cột tối đa 760px = 43.672 bài -->
+  <g font-size="24" fill="#f3e6da">
+    <text x="70" y="262" font-weight="700">Tình yêu</text>
+    <rect x="70" y="278" width="760" height="34" fill="#e2553f"/><text x="846" y="304" fill="#b8a59a">43.672</text>
+
+    <text x="70" y="372" font-weight="700">Khác</text>
+    <rect x="70" y="388" width="147" height="34" fill="#c9c2b8"/><text x="233" y="414" fill="#b8a59a">8.419</text>
+
+    <text x="70" y="482" font-weight="700">Tình yêu quê hương, đất nước</text>
+    <rect x="70" y="498" width="80" height="34" fill="#e0ae4a"/><text x="166" y="524" fill="#b8a59a">4.576</text>
+
+    <text x="70" y="592" font-weight="700">Tình cảm gia đình và cội nguồn</text>
+    <rect x="70" y="608" width="35" height="34" fill="#e78fb3"/><text x="121" y="634" fill="#b8a59a">2.036</text>
+
+    <text x="70" y="702" font-weight="700">Tuổi trẻ, khát vọng và sự dấn thân</text>
+    <rect x="70" y="718" width="27" height="34" fill="#3aa8a0"/><text x="113" y="744" fill="#b8a59a">1.556</text>
+
+    <text x="70" y="812" font-weight="700">Nhạc thiếu nhi</text>
+    <rect x="70" y="828" width="22" height="34" fill="#a5c95a"/><text x="108" y="854" fill="#b8a59a">1.266</text>
+  </g>
+
+  <!-- điểm nhấn: phần trăm chủ đề lớn nhất -->
+  <g transform="translate(900 560)">
+    <circle r="150" fill="none" stroke="#3a2a2c" stroke-width="34"/>
+    <circle r="150" fill="none" stroke="#e2553f" stroke-width="34" stroke-dasharray="671 943" transform="rotate(-90)"/>
+    <text y="10" text-anchor="middle" font-family="'Times New Roman',Times,serif" font-size="64" fill="#f3e6da">71%</text>
+    <text y="50" text-anchor="middle" font-size="22" fill="#b8a59a">là tình yêu</text>
+  </g>
+</svg>
