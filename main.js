@@ -244,7 +244,7 @@ const introDone = new Promise(done => {
       a.t = now + 6000; a.hit = false; a.box.classList.remove("on");  // 6s dự phòng nếu không tới được
     };
     let txt = "";
-    introDone.then(() => { for (let i = 0; i < 24; i++) spark(Math.random() * innerWidth, Math.random() * innerHeight, colors[i % colors.length]); });
+    introDone.then(() => { for (let i = 0; i < 8; i++) spark(Math.random() * innerWidth, Math.random() * innerHeight, colors[i % colors.length]); });
     let prev = 0;
     (function loop(now) {
       const dt = Math.min(now - prev, 1000) / 16.7; prev = now;  // chuẩn hoá theo 60fps để máy chậm vẫn bay đúng tốc độ
@@ -255,7 +255,7 @@ const introDone = new Promise(done => {
           let tx = a.x, ty = a.y;
           if (a.tg) {
             const r = a.tg.getBoundingClientRect(); tx = r.left + r.width * a.ox; ty = r.top + r.height * a.oy;
-            if (!a.hit && Math.hypot(tx - a.x, ty - a.y) < 6) { a.hit = true; a.t = now + 1200 + Math.random() * 1600; seen.add(a.tg); spark(a.x, a.y, a.c); spark(a.x + 16, a.y - 12, a.c); a.box.classList.add("on"); }
+            if (!a.hit && Math.hypot(tx - a.x, ty - a.y) < 6) { a.hit = true; a.t = now + 1200 + Math.random() * 1600; seen.add(a.tg); spark(a.x, a.y, a.c); a.box.classList.add("on"); }
             if (a.hit) Object.assign(a.box.style, { left: r.left - 5 + "px", top: r.top - 5 + "px", width: r.width + 10 + "px", height: r.height + 10 + "px" });
           }
           const f = 1 - Math.pow(1 - a.k, dt); a.x += (tx - a.x) * f; a.y += (ty - a.y) * f; a.el.style.transform = `translate(${a.x}px,${a.y}px)`;

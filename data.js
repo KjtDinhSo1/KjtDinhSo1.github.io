@@ -82,7 +82,7 @@ window.SITE = {
     cursor: true,       // vòng tròn đi theo chuột (chỉ trên máy tính)
     // "Agent" quét trang (như video): con trỏ màu bay khắp trang, khoanh khung, nổ tia "+".
     // Để [] để tắt.
-    agents: ["Kiệt", "git", "debug", "test", "AI", "lint", "build", "deploy"]
+    agents: ["Kiệt", "AI", "debug"]
   },
 
   footer: "© 2026 Nguyễn Anh Kiệt. Built with HTML, CSS & JavaScript."
