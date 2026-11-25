@@ -6,6 +6,21 @@ document.title = `${S.name} – ${S.role}`;
 document.querySelector('meta[name=description]').content = S.intro;
 $("#logo").textContent = S.logo || S.name;
 $("#nav").innerHTML = S.nav.map(n => `<a href="${n.href}">${n.t}</a>`).join("");
+/* Menu dropdown trên điện thoại: nút ☰ mở/đóng; bấm mục, bấm ra ngoài hoặc Esc thì đóng */
+{
+  const nav = $("#nav");
+  $(".top").insertAdjacentHTML("beforeend",
+    `<button class="menu-btn" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>`);
+  const btn = $(".menu-btn");
+  const setMenu = open => {
+    nav.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", open); btn.setAttribute("aria-label", open ? "Đóng menu" : "Mở menu");
+  };
+  btn.addEventListener("click", () => setMenu(!nav.classList.contains("open")));
+  nav.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
+  document.addEventListener("click", e => { if (!e.target.closest(".top")) setMenu(false); });
+  addEventListener("keydown", e => { if (e.key === "Escape" && nav.classList.contains("open")) { setMenu(false); btn.focus(); } });
+}
 
 $("#hero").innerHTML = `
   <div class="word" aria-hidden="true">${S.heroWord}</div>
@@ -185,7 +200,7 @@ const introDone = new Promise(done => {
   const onScroll = () => {
     tick = false; const y = scrollY, max = root.scrollHeight - innerHeight;
     if (bar) bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
-    top.classList.toggle("hide", y > last && y > 240); last = y;
+    top.classList.toggle("hide", y > last && y > 240 && !$("#nav").classList.contains("open")); last = y;  // menu điện thoại đang mở thì không ẩn thanh menu
     if (fx.parallax && y < innerHeight * 1.5) { word.style.setProperty("--py", y * .4 + "px"); photo.style.setProperty("--pp", y * .12 + "px"); }
     if (marq) marq.style.transform = `translateX(${-((y * .7) % (marq.scrollWidth / 2))}px)`;
   };
@@ -267,11 +282,15 @@ const introDone = new Promise(done => {
         });
       });
     };
-    /* Dự án tiêu biểu: 2 ảnh tách ra hai bên, ảnh rộng mở dần hết chiều ngang */
+    /* Dự án tiêu biểu: 2 ảnh tách ra hai bên, ảnh rộng mở dần hết chiều ngang.
+       Điện thoại (1 cột): không đẩy ngang kẻo ảnh tràn ra ngoài màn hình, chỉ trượt lên và hiện dần từng ảnh */
+    const narrow = matchMedia("(max-width: 700px)");
     const feat = () => {
-      const p = prog(pair, .7), q = 1 - p;
-      pns.forEach(el => { const s = +el.dataset.s;
-        el.style.transform = `perspective(1200px) translateX(${-s * q * 55}%) rotateY(${s * q * 18}deg) rotate(${s * q * 4}deg)`; });
+      if (narrow.matches) pns.forEach(el => { const p = prog(el, .6);
+        el.style.transform = `translateY(${(1 - p) * 40}px) scale(${.94 + .06 * p})`; el.style.opacity = .3 + .7 * p; });
+      else { const p = prog(pair, .7), q = 1 - p;
+        pns.forEach(el => { const s = +el.dataset.s; el.style.opacity = "";
+          el.style.transform = `perspective(1200px) translateX(${-s * q * 55}%) rotateY(${s * q * 18}deg) rotate(${s * q * 4}deg)`; }); }
       const e = prog(wide.parentNode, .8);
       wide.style.clipPath = `inset(0 ${(1 - e) * 16}% round 6px)`; wide.style.transform = `scale(${.92 + .08 * e})`;
     };
