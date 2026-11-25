@@ -225,6 +225,11 @@ label.bad input,label.bad textarea{border-color:var(--accent);box-shadow:0 0 0 3
 .sent .fdone .tick{transition:stroke-dashoffset .45s .6s ease-out;stroke-dashoffset:0}
 .fdone b{font:400 clamp(24px,3vw,32px)/1.2 var(--display);text-transform:uppercase;color:var(--accent)}
 .fdone p{color:var(--mute);max-width:34ch}
+.fdone .btn{justify-self:center}
+.fi{position:relative;display:grid}
+.fi svg{position:absolute;left:14px;top:15px;width:18px;height:18px;fill:none;stroke:var(--mute);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transition:stroke .2s}
+.fi input,.fi textarea{padding-left:42px}
+.fi:focus-within svg,label.bad .fi svg{stroke:var(--accent)}
 
 /* ===== ĐIỆN THOẠI: ảnh dự án + menu dropdown ===== */
 /* Khung xem lớn: hiện trọn ảnh dự án (không cắt), khối màu vẫn giữ tỉ lệ 16:10 */

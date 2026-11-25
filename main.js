@@ -79,9 +79,9 @@ $("#contact").innerHTML = `<h2>${S.contactTitle}</h2><div class="cgrid">
     <li><small>Địa chỉ</small>${c.address}</li>
     ${c.social.map(s => `<li><a href="${s.href}" target="_blank" rel="noopener">${s.t}</a></li>`).join("")}</ul>
   <form id="form" novalidate>
-    <label>Tên của bạn<input name="name" autocomplete="name" maxlength="100"><span class="ferr"></span></label>
-    <label>Mail của bạn để Kiệt trả lời<input name="email" type="email" autocomplete="email" maxlength="200"><span class="ferr"></span></label>
-    <label>Bạn cần gì?<textarea name="message" rows="4" maxlength="5000"></textarea><span class="ferr"></span></label>
+    <label>Tên của bạn<span class="fi"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><input name="name" autocomplete="name" maxlength="100"></span><span class="ferr"></span></label>
+    <label>Mail của bạn để Kiệt trả lời<span class="fi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><input name="email" type="email" autocomplete="email" maxlength="200"></span><span class="ferr"></span></label>
+    <label>Bạn cần gì?<span class="fi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.8A8 8 0 1 1 21 12z"/></svg><textarea name="message" rows="4" maxlength="5000"></textarea></span><span class="ferr"></span></label>
     <input name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <button class="btn">Gửi tin nhắn</button><p class="fmsg" id="fmsg" role="status" aria-live="polite"></p>
     <div class="fdone" role="status" aria-live="polite">
