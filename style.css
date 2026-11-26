@@ -19,8 +19,8 @@ section{padding:96px var(--pad)}
 h1,h2,h3{font-family:var(--display);font-weight:400;text-transform:uppercase;line-height:1.2;letter-spacing:.01em}
 h2{font-size:clamp(40px,6vw,84px);max-width:14ch}
 .btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:700;padding:14px 26px;border-radius:6px;text-decoration:none;transition:transform .15s}
-.btn:hover{transform:translateY(-2px)}
-.top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:16px var(--pad);background:rgba(255,208,223,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.btn:hover{transform:translate(-2px,-2px)}
+.top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:16px var(--pad);background:var(--bg);border-bottom:1px solid var(--line)}
 .logo{font:400 26px var(--display);text-transform:uppercase;text-decoration:none}
 nav{display:flex;gap:28px;font-size:14px}
 nav a{text-decoration:none;color:var(--mute)}nav a:hover{color:var(--accent)}
@@ -137,8 +137,7 @@ figcaption{color:var(--mute);font-size:14px;margin-top:10px}
 @media(max-width:700px){.pair{grid-template-columns:1fr}}
 
 /* ===== TRANG TRÍ & CHẤT IT ===== */
-body{background:radial-gradient(ellipse at 75% -10%,rgba(255,225,100,.5),transparent 50%),
-  linear-gradient(rgba(188,22,77,.06) 1px,transparent 1px) 0 0/40px 40px,
+body{background:linear-gradient(rgba(188,22,77,.06) 1px,transparent 1px) 0 0/40px 40px,
   linear-gradient(90deg,rgba(188,22,77,.06) 1px,transparent 1px) 0 0/40px 40px,var(--bg)}
 ::selection{background:var(--hl);color:var(--accent)}
 .word{color:var(--hl);-webkit-text-stroke:2px var(--accent);opacity:.55}
@@ -146,17 +145,17 @@ body{background:radial-gradient(ellipse at 75% -10%,rgba(255,225,100,.5),transpa
 .btn:hover{box-shadow:6px 6px 0 var(--hl)}
 .photo{border:2px solid var(--accent);box-shadow:var(--glow);color:var(--accent)}
 .chips span{background:rgba(255,255,255,.35);transition:background .2s}.chips span:hover{background:var(--hl)}
-.media{box-shadow:0 10px 24px rgba(188,22,77,.18)}
+.media{box-shadow:4px 4px 0 rgba(188,22,77,.16)}
 .hi,.num,.chips span,.sub,.meta small,.lb-body small,.clinks small,footer{font-family:var(--mono)}
 @keyframes blink{50%{opacity:0}}
 
 /* ===== AGENT QUÉT TRANG ===== */
 .agents{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden}
-.ag{position:absolute;left:0;top:0;color:var(--c);will-change:transform;filter:drop-shadow(0 0 4px var(--c))}
+.ag{position:absolute;left:0;top:0;color:var(--c);will-change:transform;filter:drop-shadow(1.5px 1.5px 0 var(--hl))}
 .ag span{position:absolute;left:12px;top:15px;background:var(--c);color:#fff;font:700 11px var(--mono);padding:1px 7px;border-radius:99px;white-space:nowrap}
-.abox{position:absolute;border:1px solid var(--c);border-radius:4px;box-shadow:0 0 12px var(--c);opacity:0;transition:opacity .3s}
+.abox{position:absolute;border:1px solid var(--c);border-radius:4px;box-shadow:3px 3px 0 var(--hl);opacity:0;transition:opacity .3s}
 .abox.on{opacity:.8}
-.spark{position:absolute;font:400 20px/1 var(--mono);font-style:normal;translate:-50% -50%;text-shadow:0 0 8px currentColor;animation:spark 1.4s ease-out forwards}
+.spark{position:absolute;font:400 20px/1 var(--mono);font-style:normal;translate:-50% -50%;text-shadow:1px 1px 0 var(--hl);animation:spark 1.4s ease-out forwards}
 @keyframes spark{0%{opacity:0;scale:.3}30%{opacity:1;scale:1.25}100%{opacity:0;scale:.6;rotate:90deg}}
 .hud{position:fixed;left:50%;bottom:18px;translate:-50% 0;z-index:61;pointer-events:none;font:12px var(--mono);color:var(--mute);background:rgba(255,240,245,.92);border:1px solid var(--line);border-radius:99px;padding:6px 14px;white-space:nowrap}
 .hud b{display:inline-block;vertical-align:middle;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--accent);animation:blink 1s steps(1) infinite}

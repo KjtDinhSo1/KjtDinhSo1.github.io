@@ -25,7 +25,7 @@ Sửa chữ nằm trong dấu `"..."`, giữ nguyên dấu phẩy và ngoặc.
 - `role`: chức danh. `intro`: câu giới thiệu ngắn ở trang đầu.
 - `heroWord`: chữ lớn phía sau ảnh (mặc định `PORTFOLIO`).
 - `stats`: 3 con số nổi bật (`n` là số, `l` là nhãn).
-- `education`, `tools`: học vấn và công cụ.
+- `education`: học vấn. Công cụ ghi luôn trong `services` (mục Kỹ năng).
 - `contact`: email, số điện thoại, địa chỉ, mạng xã hội. `contact.api` là địa chỉ máy chủ nhận tin nhắn của form Liên hệ (xem mục 12). Để trống thì form mở ứng dụng email của người xem.
 - `footer`: dòng chữ cuối trang.
 

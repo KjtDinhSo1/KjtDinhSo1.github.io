@@ -53,7 +53,7 @@ $("#grid").addEventListener("click", e => {
   const c = e.target.closest(".card"); if (!c) return;
   const w = S.works[c.dataset.i];
   lb.innerHTML = `<button class="x" aria-label="Đóng">×</button><div class="media">${media(w)}</div>
-    <div class="lb-body"><small>${w.cat} · ${w.year}</small><h3>${w.title}</h3><p>${w.desc}</p></div>`;
+    <div class="lb-body"><small>${w.cat} · ${w.year}</small><h3>${w.title}</h3><p>${w.desc}</p>${w.link ? `<a class="btn" href="${w.link}" target="_blank" rel="noopener">Xem mã nguồn</a>` : ""}</div>`;
   lb.showModal();
 });
 lb.addEventListener("click", e => { if (e.target === lb || e.target.closest(".x")) lb.close(); });
@@ -68,8 +68,7 @@ $("#feature").innerHTML = `<p class="hi">${F.label}: ${F.client}</p><h2>${F.titl
 
 $("#about").innerHTML = `<div class="about"><div><h2>${S.aboutTitle}</h2><p>${S.aboutText}</p></div>
   <div><p class="sub" style="margin-top:0">Học vấn</p><ul class="edu">
-    ${S.education.map(e => `<li><strong>${e.t}</strong><em>${e.y}</em><small>${e.s}</small></li>`).join("")}</ul>
-    <p class="sub">Công cụ</p><div class="chips">${S.tools.map(t => `<span>${t}</span>`).join("")}</div></div></div>`;
+    ${S.education.map(e => `<li><strong>${e.t}</strong><em>${e.y}</em><small>${e.s}</small></li>`).join("")}</ul></div></div>`;
 
 const c = S.contact;
 $("#contact").innerHTML = `<h2>${S.contactTitle}</h2><div class="cgrid">
@@ -188,6 +187,7 @@ const introDone = new Promise(done => {
     window.reveal();
   }
   if (fx.counters) $$(".stats b").forEach((b, i) => {
+    if (!/^\d+$/.test(b.textContent)) return;  // số có dấu chấm như "61.525" giữ nguyên
     const n = +b.textContent; b.textContent = 0;
     introDone.then(() => {
       const t0 = performance.now() + 500 + i * 150;
@@ -222,7 +222,7 @@ const introDone = new Promise(done => {
   /* "Agent" quét trang như video: con trỏ bay tới từng phần tử, khoanh khung, nổ tia "+". */
   const names = fx.agents;
   if (names && names.length) {
-    const colors = ["#BC164D", "#7b2cbf", "#0f766e", "#c2410c", "#1d4ed8", "#a21caf"];  // đủ đậm để nhãn chữ trắng đọc rõ trên nền hồng nhạt
+    const colors = ["#BC164D", "#7a0e33", "#3d0a1d"];  // chỉ dùng màu của trang, đủ đậm để nhãn chữ trắng đọc rõ
     const layer = document.createElement("div"), hud = document.createElement("div");
     layer.className = "agents"; hud.className = "hud";
     layer.setAttribute("aria-hidden", "true"); hud.setAttribute("aria-hidden", "true");
@@ -262,7 +262,7 @@ const introDone = new Promise(done => {
           }
           const f = 1 - Math.pow(1 - a.k, dt); a.x += (tx - a.x) * f; a.y += (ty - a.y) * f; a.el.style.transform = `translate(${a.x}px,${a.y}px)`;
         });
-        const t = seen.size ? `<b></b>${ags.length} agents · ${seen.size} / ${Math.max(seen.size, $$(sel).length)} layers · Testing` : "<b></b>Scanning page…";
+        const t = seen.size ? `<b></b>${ags.length} con trỏ · đã ghé ${seen.size} / ${Math.max(seen.size, $$(sel).length)} chỗ` : "<b></b>Đang dạo quanh trang…";
         if (t !== txt) hud.innerHTML = txt = t;
       }
       requestAnimationFrame(loop);
