@@ -58,7 +58,7 @@ Mở `style.css`, các dòng đầu tiên:
 ```css
 --accent:#BC164D;   /* màu chủ đạo: nút, chữ nổi bật, viền */
 --bg:#FFD0DF;       /* màu nền */
---hl:#FFE164;       /* màu nhấn: dải chữ chạy, bóng đổ nút, chữ <DEV/>, vùng bôi chọn */
+--hl:#FFE164;       /* màu nhấn: dải chữ chạy, bóng đổ nút, chữ lớn KINICH, vùng bôi chọn */
 ```
 - `--text`, `--mute`: màu chữ chính và chữ phụ (nên tối để đọc rõ trên nền sáng).
 - `--panel`: nền phần Kỹ năng và ô nhập liệu. `--line`: màu đường kẻ.

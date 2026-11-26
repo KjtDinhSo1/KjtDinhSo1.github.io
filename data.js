@@ -5,8 +5,8 @@ window.SITE = {
   logo: "Kinich",                       // tên hiện ở góc trái thanh menu
   initials: "AK",                       // hiện khi chưa có ảnh
   role: "Computer Science Student",
-  heroWord: "&lt;DEV/&gt;",
-  intro: "Sinh viên ngành Khoa học Máy tính. Mình thích biến bài toán khó thành code gọn, chạy nhanh và dễ bảo trì, từ web full-stack đến AI.",
+  heroWord: "KINICH",
+  intro: "Mình học Khoa học Máy tính ở TDTU. Gần đây mình cho máy đọc lời 61.525 bài hát tiếng Việt để xem chúng nói về gì: 71% là chuyện tình yêu.",
   cta: "Xem dự án",
   photo: "assets/avatar.webp",          // ảnh đã tách nền (nền trong suốt)
   stats: [
@@ -52,8 +52,8 @@ window.SITE = {
     wide: { title: "Phân tích chủ đề bài hát theo lời bài hát tiếng Việt", img: "assets/du-an/bai-hat-rong.webp", color: "#7a0e33" }
   },
 
-  aboutTitle: "Hello, World! Tôi là Kiệt.",
-  aboutText: "Mình là sinh viên ngành Khoa học Máy tính, đam mê phát triển phần mềm và trí tuệ nhân tạo. Mình thích hiểu tận gốc vì sao code chạy, viết code sạch, có test, và luôn học thêm công nghệ mới qua các dự án thực tế.",
+  aboutTitle: "Chào bạn, mình là Kiệt.",
+  aboutText: "Mình thích những bài toán dính tới tiếng Việt: phân loại chủ đề bài hát chỉ từ lời, hay chatbot Tri Việt tra cứu địa giới hành chính và trả lời kèm nguồn cho từng câu. Mình cũng làm web, như Monolingo để tự học tiếng Anh và chính trang này, từ giao diện tới form liên hệ gửi mail.",
   education: [
     { t: "Trường Đại học Tôn Đức Thắng (TDTU)", s: "Khoa Công nghệ Thông tin · Ngành Khoa học Máy tính", y: "2023 – 2027" }
   ],
@@ -78,12 +78,12 @@ window.SITE = {
     progress: true,     // thanh màu chủ đạo chạy trên cùng theo tiến độ cuộn
     marquee: true,      // dải chữ vàng chạy ngang theo con lăn chuột
     spread: true,       // thẻ dự án xòe ra từng hàng, ảnh dự án tiêu biểu tách ra và mở rộng khi cuộn
-    counters: true,     // số liệu đếm từ 0
-    cursor: true,       // vòng tròn đi theo chuột (chỉ trên máy tính)
+    counters: false,    // số liệu đếm từ 0
+    cursor: false,      // vòng tròn đi theo chuột (chỉ trên máy tính)
     // "Agent" quét trang (như video): con trỏ màu bay khắp trang, khoanh khung, nổ tia "+".
     // Để [] để tắt.
     agents: ["Kiệt", "AI", "debug"]
   },
 
-  footer: "© 2026 Nguyễn Anh Kiệt. Built with HTML, CSS & JavaScript."
+  footer: "© 2026 Nguyễn Anh Kiệt · TP. Hồ Chí Minh"
 };

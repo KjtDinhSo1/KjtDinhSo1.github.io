@@ -148,8 +148,6 @@ body{background:radial-gradient(ellipse at 75% -10%,rgba(255,225,100,.5),transpa
 .chips span{background:rgba(255,255,255,.35);transition:background .2s}.chips span:hover{background:var(--hl)}
 .media{box-shadow:0 10px 24px rgba(188,22,77,.18)}
 .hi,.num,.chips span,.sub,.meta small,.lb-body small,.clinks small,footer{font-family:var(--mono)}
-.hi::before{content:"> ";color:var(--accent)}
-.hero-text h1::after{content:"_";animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 
 /* ===== AGENT QUÉT TRANG ===== */
@@ -193,13 +191,9 @@ body{background:radial-gradient(ellipse at 75% -10%,rgba(255,225,100,.5),transpa
 @keyframes ld-pop{from{transform:scale(0) rotate(-25deg)}}
 @keyframes ld-beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
 .ld-type{font:500 15px var(--mono);color:var(--text);min-height:1.65em}
-.ld-type b{color:var(--accent)}.ld-type em{font-style:normal;color:var(--accent);animation:blink 1s steps(1) infinite}
 .ld-bar{width:min(260px,70vw);height:12px;padding:2px;border:2px solid var(--accent);border-radius:99px;background:rgba(255,255,255,.5);box-shadow:3px 3px 0 var(--hl)}
 .ld-bar div{height:100%;border-radius:99px;background:var(--accent);transform:scaleX(0);transform-origin:left}
 .ld-pct{font:700 12px var(--mono);color:var(--mute)}
-.ld-spark{position:absolute;font:400 26px/1 var(--body);font-style:normal;color:var(--accent);animation:ld-float 3s ease-in-out infinite}
-.ld-spark.y{color:var(--hl);-webkit-text-stroke:1px var(--accent)}
-@keyframes ld-float{50%{transform:translateY(-16px) rotate(25deg) scale(1.15)}}
 @media(prefers-reduced-motion:reduce){.loader{display:none}}
 
 /* Form liên hệ: lỗi từng ô, đang gửi, gửi xong */

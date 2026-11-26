@@ -25,7 +25,7 @@ $("#nav").innerHTML = S.nav.map(n => `<a href="${n.href}">${n.t}</a>`).join("");
 $("#hero").innerHTML = `
   <div class="word" aria-hidden="true">${S.heroWord}</div>
   <div class="photo">${S.photo ? `<img src="${S.photo}" alt="${S.name}">` : S.initials}</div>
-  <div class="hero-text"><p class="hi">Xin chào, tôi là ${S.name}</p><h1>${S.role}</h1>
+  <div class="hero-text"><p class="hi">Xin chào, mình là ${S.name}</p><h1>${S.role}</h1>
     <p>${S.intro}</p><a class="btn" href="#work">${S.cta}</a></div>
   <ul class="stats">${S.stats.map(s => `<li><b>${s.n}</b><span>${s.l}</span></li>`).join("")}</ul>`;
 
@@ -141,9 +141,11 @@ $("#foot").textContent = S.footer;
 const introDone = new Promise(done => {
   const loader = $("#loader"), root = document.documentElement;
   const finish = () => { root.classList.remove("intro"); done(); };
-  if (!loader || matchMedia("(prefers-reduced-motion: reduce)").matches) { if (loader) loader.remove(); return finish(); }
+  let seen = false; try { seen = sessionStorage.getItem("intro") === "1"; sessionStorage.setItem("intro", "1"); } catch {}
+  // chỉ chạy lần đầu vào trang trong mỗi phiên
+  if (!loader || seen || matchMedia("(prefers-reduced-motion: reduce)").matches) { if (loader) loader.remove(); return finish(); }
   const msg = `Xin chào, mình là ${S.name.split(" ").pop()} ♡`, txt = $("#ld-text"), fill = $("#ld-fill"), pct = $("#ld-pct");
-  const D = 1800, t0 = performance.now(); let out = false;
+  const D = 1200, t0 = performance.now(); let out = false;
   const exit = () => {
     if (out) return; out = true;
     loader.classList.add("out"); setTimeout(finish, 250); setTimeout(() => loader.remove(), 1200);
@@ -168,7 +170,7 @@ const introDone = new Promise(done => {
 
   let marq;
   if (fx.marquee) {
-    const t = cats.slice(1).join(" ✦ ") + " ✦ ";
+    const t = cats.slice(1).join(" • ") + " • ";
     $("#hero").insertAdjacentHTML("afterend", `<div class="marquee" aria-hidden="true"><div>${t.repeat(6)}</div></div>`);
     marq = $(".marquee div");
   }
