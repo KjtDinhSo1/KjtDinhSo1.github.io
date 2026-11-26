@@ -6,7 +6,7 @@ window.SITE = {
   initials: "AK",                       // hiện khi chưa có ảnh
   role: "Sinh viên Khoa học Máy tính",
   heroWord: "KINICH",
-  intro: "Mình học Khoa học Máy tính ở TDTU. Gần đây mình cho máy đọc lời 61.525 bài hát tiếng Việt để xem chúng nói về gì: 71% là chuyện tình yêu.",
+  intro: "Mình đang học tại Trường Đại học Tôn Đức Thắng. Cảm ơn bạn đã ghé qua, bên dưới là những dự án mình đã làm.",
   cta: "Xem dự án",
   photo: "assets/avatar.webp",          // ảnh đã tách nền (nền trong suốt)
   stats: [
