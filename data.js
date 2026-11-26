@@ -11,7 +11,7 @@ window.SITE = {
   photo: "assets/avatar.webp",          // ảnh đã tách nền (nền trong suốt)
   stats: [
     { n: 4,  l: "Dự án" },
-    { n: "61.525", l: "Bài hát đã phân tích" }
+    { n: 11, l: "Công nghệ" }
   ],
   nav: [
     { t: "Dự án",     href: "#work" },
@@ -80,7 +80,7 @@ window.SITE = {
     cursor: false,      // vòng tròn đi theo chuột (chỉ trên máy tính)
     // "Agent" quét trang (như video): con trỏ màu bay khắp trang, khoanh khung, nổ tia "+".
     // Để [] để tắt.
-    agents: ["Kiệt", "AI", "debug"]
+    agents: []
   },
 
   footer: "© 2026 Nguyễn Anh Kiệt · TP. Hồ Chí Minh"
